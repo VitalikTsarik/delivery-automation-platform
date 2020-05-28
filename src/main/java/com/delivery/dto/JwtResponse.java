@@ -1,4 +1,4 @@
-package com.delivery.payload.response;
+package com.delivery.dto;
 
 import java.util.List;
 

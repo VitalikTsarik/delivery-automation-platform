@@ -1,33 +1,29 @@
-package com.delivery.services;
+package com.delivery.security;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
+import com.delivery.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.delivery.entity.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Collection;
+import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
-	private String username;
+	private String login;
 
 	@JsonIgnore
 	private String password;
 
 	private GrantedAuthority authority;
 
-	public UserDetailsImpl(Long id, String username, String password, GrantedAuthority authority) {
+	public UserDetailsImpl(Long id, String login, String password, GrantedAuthority authority) {
 		this.id = id;
-		this.username = username;
+		this.login = login;
 		this.password = password;
 		this.authority = authority;
 	}
@@ -53,7 +49,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return username;
+		return login;
 	}
 
 	@Override
@@ -76,8 +72,8 @@ public class UserDetailsImpl implements UserDetails {
 		return true;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	@Override

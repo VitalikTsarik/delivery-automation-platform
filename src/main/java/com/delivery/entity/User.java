@@ -1,6 +1,8 @@
 package com.delivery.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,12 +19,14 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
 	private String login;
 	private String firstName;
 	private String secondName;
 	private String patronymic;
 	private String password;
-	private Role role;
 
 	public User() {
 	}

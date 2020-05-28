@@ -1,19 +1,20 @@
-package com.delivery.controllers;
+package com.delivery.controller;
 
-import com.delivery.payload.request.LoginRequest;
-import com.delivery.payload.request.SignupRequest;
-import com.delivery.payload.response.JwtResponse;
-import com.delivery.payload.response.MessageResponse;
-import com.delivery.repository.UserRepository;
+import com.delivery.dto.JwtResponse;
+import com.delivery.dto.LoginRequest;
+import com.delivery.dto.MessageResponse;
+import com.delivery.dto.SignUpRequest;
+import com.delivery.entity.Role;
+import com.delivery.exception.LoginIsBusyException;
+import com.delivery.security.UserDetailsImpl;
 import com.delivery.security.jwt.JwtUtils;
-import com.delivery.services.UserDetailsImpl;
+import com.delivery.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,13 +30,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 public class AuthController {
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	PasswordEncoder encoder;
+	private UserService userService;
 
 	@Autowired
 	JwtUtils jwtUtils;
@@ -61,27 +59,21 @@ public class AuthController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByLogin(signUpRequest.getUsername())) {
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+		try {
+			userService.signUp(
+					signUpRequest.getUsername(),
+					signUpRequest.getPassword(),
+					signUpRequest.getUsername(),
+					signUpRequest.getEmail(),
+					signUpRequest.getUsername(),
+					Role.CARGO_OWNER
+			);
+		} catch (LoginIsBusyException e) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
+					.body(new MessageResponse("Error: Login is busy!"));
 		}
-
-		// Create new user's account
-//		User user = new User(signUpRequest.getUsername(),
-//							 signUpRequest.getEmail(),
-//							 encoder.encode(signUpRequest.getPassword()));
-//
-//		Set<String> strRoles = signUpRequest.getRole();
-//		Set<Role> roles = new HashSet<>();
-//		Role role = new Role();
-//		role.setName(Role.ROLE_USER);
-//		roleRepository.save(role);
-//		roles.add(role);
-//
-//		user.setRoles(roles);
-//		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

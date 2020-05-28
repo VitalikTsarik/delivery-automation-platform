@@ -1,4 +1,4 @@
-package com.delivery.payload.request;
+package com.delivery.dto;
 
 import javax.validation.constraints.NotBlank;
 
