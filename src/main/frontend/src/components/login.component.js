@@ -59,13 +59,16 @@ export default class Login extends Component {
           window.location.reload();
         },
         error => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
+          let resMessage;
+          if (error.response.status === 403) {
+            resMessage = "Login or Password are incorrect!";
+          } else {
+            resMessage = (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString();
+          }
           this.setState({
             loading: false,
             message: resMessage

@@ -1,7 +1,15 @@
 package com.delivery.entity;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
 	CARGO_OWNER,
     TRANSPORTER,
-    MANAGER
+    MANAGER,
+    ;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
