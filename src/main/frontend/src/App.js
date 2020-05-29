@@ -5,8 +5,8 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/login.component";
-import Register from "./components/register.component";
+import Login from "./components/auth/login.component";
+import Register from "./components/auth/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
@@ -49,7 +49,7 @@ class App extends Component {
         <div>
           <nav className="navbar navbar-expand navbar-dark bg-dark">
             <Link to={"/"} className="navbar-brand">
-              bezKoder
+              DAP
             </Link>
             <div className="navbar-nav mr-auto">
               <li className="nav-item">
