@@ -16,6 +16,15 @@ public class CityInTrip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public CityInTrip() {
+    }
+
+    public CityInTrip(City city, Trip trip, long order) {
+        this.city = city;
+        this.trip = trip;
+        this.order = order;
+    }
+
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;

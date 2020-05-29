@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @PreAuthorize("hasAuthority('CARGO_OWNER')")
-@RequestMapping("/api")
+@RequestMapping("/api/cargo-owner")
 public class CargoOwnerController {
 
     @Autowired
