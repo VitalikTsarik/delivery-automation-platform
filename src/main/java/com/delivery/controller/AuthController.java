@@ -1,8 +1,8 @@
 package com.delivery.controller;
 
 import com.delivery.dto.JwtResponse;
-import com.delivery.dto.LoginRequest;
 import com.delivery.dto.MessageResponse;
+import com.delivery.dto.SignInRequest;
 import com.delivery.dto.SignUpRequest;
 import com.delivery.entity.Role;
 import com.delivery.entity.User;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Collections;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -34,10 +33,10 @@ public class AuthController {
 	private JwtUtils jwtUtils;
 
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody SignInRequest signInRequest) {
 		User user;
 		try {
-			user = userService.signIn(loginRequest.getUsername(), loginRequest.getPassword());
+			user = userService.signIn(signInRequest.getLogin(), signInRequest.getPassword());
 		} catch (BadCredentialsException ex) {
 			return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
@@ -45,9 +44,8 @@ public class AuthController {
 		return ResponseEntity.ok(
 				new JwtResponse(
 						jwtUtils.generateJwtToken(user),
-						user.getId(),
 						user.getLogin(),
-						Collections.singletonList(user.getRole().name())
+						user.getRole()
 				)
 		);
 	}
@@ -56,11 +54,11 @@ public class AuthController {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		try {
 			userService.signUp(
-					signUpRequest.getUsername(),
+					signUpRequest.getLogin(),
 					signUpRequest.getPassword(),
-					signUpRequest.getUsername(),
-					signUpRequest.getEmail(),
-					signUpRequest.getUsername(),
+					signUpRequest.getLogin(),
+					signUpRequest.getLogin(),
+					signUpRequest.getLogin(),
 					Role.CARGO_OWNER
 			);
 		} catch (LoginIsBusyException e) {

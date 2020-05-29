@@ -8,10 +8,12 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
 import java.util.Date;
 
 @Component
@@ -24,11 +26,14 @@ public class JwtUtils {
 	@Value("${delivery.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 
+	@Autowired
+	private Clock clock;
+
 	public String generateJwtToken(UserDetails userDetails) {
 		return Jwts.builder()
 				.setSubject((userDetails.getUsername()))
-				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				.setIssuedAt(new Date(clock.millis()))
+				.setExpiration(new Date(clock.millis() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
