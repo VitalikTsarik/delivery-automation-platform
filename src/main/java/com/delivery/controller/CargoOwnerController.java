@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -36,15 +38,20 @@ public class CargoOwnerController {
     private CityService cityService;
 
     @GetMapping("/packages")
-    public ResponseEntity<?> getAllPackages(@AuthenticationPrincipal User user) {
+    public ResponseEntity<?> getAllPackages(@AuthenticationPrincipal @ApiIgnore User user) {
         List<Package> packages = packageRepository.findAllPackages(user);
 
-        return ResponseEntity.ok(packages);
+        return ResponseEntity.ok(
+                packages
+                        .stream()
+                        .map(PackageDto::build)
+                        .collect(Collectors.toList())
+        );
     }
 
     @PostMapping("/package")
     public ResponseEntity<?> createPackage(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal @ApiIgnore User user,
             @Valid @RequestBody PackageDto packageDto
     ) {
         Package newPackage = new Package();
@@ -57,9 +64,9 @@ public class CargoOwnerController {
     }
 
     @GetMapping("/package/{id}")
-    public ResponseEntity<?> getAllPackages(
+    public ResponseEntity<?> getPackage(
             @PathVariable long id,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal @ApiIgnore  User user
     ) {
         Package cargo = packageRepository.findByIdAndOwner(id, user);
 
@@ -69,7 +76,7 @@ public class CargoOwnerController {
     @PutMapping("/package/{id}")
     public ResponseEntity<?> updatePackage(
             @PathVariable long id,
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal @ApiIgnore User user,
             @Valid @RequestBody PackageDto packageDto
     ) {
         Package packageToUpdate = packageRepository.findByIdAndOwner(id, user);
@@ -89,7 +96,7 @@ public class CargoOwnerController {
     @DeleteMapping("/package/{id}")
     public ResponseEntity<?> deletePackage(
             @PathVariable long id,
-            @AuthenticationPrincipal User user
+            @ApiIgnore @AuthenticationPrincipal User user
     ) {
         Package packageToDelete = packageRepository.findByIdAndOwner(id, user);
 
