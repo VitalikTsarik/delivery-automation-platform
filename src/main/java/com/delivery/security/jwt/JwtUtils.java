@@ -1,5 +1,7 @@
 package com.delivery.security.jwt;
 
+import com.delivery.entity.User;
+import com.google.common.collect.ImmutableMap;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -10,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -29,11 +30,12 @@ public class JwtUtils {
 	@Autowired
 	private Clock clock;
 
-	public String generateJwtToken(UserDetails userDetails) {
+	public String generateJwtToken(User user) {
 		return Jwts.builder()
-				.setSubject((userDetails.getUsername()))
+				.setSubject((user.getLogin()))
 				.setIssuedAt(new Date(clock.millis()))
 				.setExpiration(new Date(clock.millis() + jwtExpirationMs))
+				.addClaims(ImmutableMap.of("role", user.getRole().name()))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
