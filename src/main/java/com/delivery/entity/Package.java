@@ -30,6 +30,10 @@ public class Package {
     private City targetLocation;
 
     @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @ManyToOne
     @JoinColumn(name = "current_trip_id")
     private Trip currentTrip;
 
@@ -99,5 +103,21 @@ public class Package {
 
     public void setTargetLocation(City targetLocation) {
         this.targetLocation = targetLocation;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public Trip getCurrentTrip() {
+        return currentTrip;
+    }
+
+    public void setCurrentTrip(Trip currentTrip) {
+        this.currentTrip = currentTrip;
     }
 }
