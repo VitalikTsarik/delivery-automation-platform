@@ -4,7 +4,6 @@ import com.delivery.dto.JwtResponse;
 import com.delivery.dto.MessageResponse;
 import com.delivery.dto.SignInRequest;
 import com.delivery.dto.SignUpRequest;
-import com.delivery.entity.Role;
 import com.delivery.entity.User;
 import com.delivery.exception.LoginIsBusyException;
 import com.delivery.security.jwt.JwtUtils;
@@ -56,10 +55,10 @@ public class AuthController {
 			userService.signUp(
 					signUpRequest.getLogin(),
 					signUpRequest.getPassword(),
-					signUpRequest.getLogin(),
-					signUpRequest.getLogin(),
-					signUpRequest.getLogin(),
-					Role.CARGO_OWNER
+					signUpRequest.getFirstName(),
+					signUpRequest.getSecondName(),
+					signUpRequest.getPatronymic(),
+					signUpRequest.getRole()
 			);
 		} catch (LoginIsBusyException e) {
 			return ResponseEntity
