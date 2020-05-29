@@ -4,6 +4,7 @@ import com.delivery.entity.Package;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -13,16 +14,16 @@ public class PackageDto {
 
     @NotBlank
     private String name;
-    @NotBlank
-    private Long weight;
-    @NotBlank
-    private Long length;
-    @NotBlank
-    private Long width;
-    @NotBlank
-    private Long height;
-    @NotBlank
-    private Long cost;
+    @Min(1)
+    private long weight;
+    @Min(1)
+    private long length;
+    @Min(1)
+    private long width;
+    @Min(1)
+    private long height;
+    @Min(1)
+    private long cost;
     @NotBlank
     private String initialLocation;
     @NotBlank
