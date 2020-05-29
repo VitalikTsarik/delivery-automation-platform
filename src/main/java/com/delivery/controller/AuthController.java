@@ -56,8 +56,8 @@ public class AuthController {
 					signUpRequest.getLogin(),
 					signUpRequest.getPassword(),
 					signUpRequest.getFirstName(),
-					signUpRequest.getSecondName(),
-					signUpRequest.getPatronymic(),
+					signUpRequest.getMiddleName(),
+					signUpRequest.getLastName(),
 					signUpRequest.getRole()
 			);
 		} catch (LoginIsBusyException e) {

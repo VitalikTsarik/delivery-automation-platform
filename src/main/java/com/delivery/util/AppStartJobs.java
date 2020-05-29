@@ -26,9 +26,13 @@ public class AppStartJobs {
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void prepareTestUsersForSwagger() {
-        LOG.info("Registering test user");
+        LOG.debug("Registering test users");
+        generateJwtTokenForSwagger("SwaggerCargoOwner", Role.CARGO_OWNER);
+        generateJwtTokenForSwagger("SwaggerTransporter", Role.TRANSPORTER);
+        generateJwtTokenForSwagger("SwaggerManager", Role.MANAGER);
+    }
 
-        String mockName = "SwaggerCargoOwner";
+    private void generateJwtTokenForSwagger(String mockName, Role role) {
         try {
             userService.signUp(
                     mockName,
@@ -36,7 +40,7 @@ public class AppStartJobs {
                     mockName,
                     mockName,
                     mockName,
-                    Role.CARGO_OWNER
+                    role
             );
         } catch (LoginIsBusyException e) {
             LOG.warn("Login is busy.");
@@ -45,6 +49,6 @@ public class AppStartJobs {
         User testCargoOwner = userService.signIn(mockName, mockName);
         String jwtForTest = jwtUtils.generateJwtToken(testCargoOwner);
 
-        LOG.info("SwaggerToken for Cargo_Owner : Bearer {}", jwtForTest);
+        LOG.debug("SwaggerToken for {}: \nBearer {}", role, jwtForTest);
     }
 }

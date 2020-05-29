@@ -47,8 +47,8 @@ public class UserService implements UserDetailsService {
 			String login,
 			String password,
 			String firstName,
-			String secondName,
-			String patronymic,
+			String middleName,
+			String lastName,
 			Role role
 	) throws LoginIsBusyException {
 		if (existsByLogin(login)) {
@@ -59,8 +59,8 @@ public class UserService implements UserDetailsService {
 		user.setLogin(login);
 		user.setPassword(passwordEncoder.encode(password));
 		user.setFirstName(firstName);
-		user.setSecondName(secondName);
-		user.setPatronymic(patronymic);
+		user.setMiddleName(middleName);
+		user.setLastName(lastName);
 		user.setRole(role);
 
 		return userRepository.save(user);

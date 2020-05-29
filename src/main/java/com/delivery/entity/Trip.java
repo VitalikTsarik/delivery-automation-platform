@@ -1,10 +1,14 @@
 package com.delivery.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -13,9 +17,17 @@ import java.util.List;
 @Entity
 @Table(name = "trips")
 public class Trip {
+    public enum State {
+        CREATING,
+        STARTED,
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private State state;
 
     @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
     private List<CityInTrip> routeList;
@@ -28,8 +40,20 @@ public class Trip {
     @OneToOne
     private CityInTrip currentLocation;
 
+    @ManyToOne
+    @JoinColumn(name = "transporter_id", nullable = false)
+    private User transporter;
+
     public Long getId() {
         return id;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public List<CityInTrip> getRouteList() {
@@ -62,5 +86,13 @@ public class Trip {
 
     public void setCurrentLocation(CityInTrip currentLocation) {
         this.currentLocation = currentLocation;
+    }
+
+    public User getTransporter() {
+        return transporter;
+    }
+
+    public void setTransporter(User transporter) {
+        this.transporter = transporter;
     }
 }

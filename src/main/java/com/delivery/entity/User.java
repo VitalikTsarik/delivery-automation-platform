@@ -29,8 +29,8 @@ public class User implements UserDetails {
 
 	private String login;
 	private String firstName;
-	private String secondName;
-	private String patronymic;
+	private String middleName;
+	private String lastName;
 	private String password;
 
 	public User() {
@@ -86,20 +86,20 @@ public class User implements UserDetails {
 		this.firstName = firstName;
 	}
 
-	public String getSecondName() {
-		return secondName;
+	public String getMiddleName() {
+		return middleName;
 	}
 
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 
-	public String getPatronymic() {
-		return patronymic;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setPatronymic(String patronymic) {
-		this.patronymic = patronymic;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	@Override
