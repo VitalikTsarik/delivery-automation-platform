@@ -11,8 +11,8 @@ public class UserDto {
     private long id;
     private String login;
     private String firstName;
-    private String secondName;
-    private String patronymic;
+    private String middleName;
+    private String lastName;
     private Role role;
 
     public static UserDto build(User user) {
@@ -20,8 +20,8 @@ public class UserDto {
                 user.getId(),
                 user.getLogin(),
                 user.getFirstName(),
-                user.getSecondName(),
-                user.getPatronymic(),
+                user.getMiddleName(),
+                user.getLastName(),
                 user.getRole()
         );
     }

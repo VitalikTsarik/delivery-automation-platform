@@ -44,8 +44,8 @@ class AuthApiIntegrationTest {
                 password: password,
                 role: Role.CARGO_OWNER,
                 firstName: 'firstName',
-                secondName: 'secondName',
-                patronymic: 'patronymic'
+                middleName: 'middleName',
+                lastName: 'lastName'
 
         mockMvc
                 .perform(

@@ -26,8 +26,8 @@ public class SignUpRequest {
     private String firstName;
 
     @NotBlank
-    private String secondName;
+    private String middleName;
 
     @NotBlank
-    private String patronymic;
+    private String lastName;
 }
