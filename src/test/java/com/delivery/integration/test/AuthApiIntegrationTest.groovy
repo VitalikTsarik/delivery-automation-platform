@@ -1,5 +1,7 @@
 package com.delivery.integration.test
 
+import com.delivery.entity.Role
+import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class PackageApiIntegrationTest {
+class AuthApiIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc
@@ -37,13 +39,19 @@ class PackageApiIntegrationTest {
     }
 
     private void signUp() {
-        String signUpBody = """{"login":"$login","password":"$password"}"""
+        def json = new JsonBuilder()
+        json    login: login,
+                password: password,
+                role: Role.CARGO_OWNER,
+                firstName: 'firstName',
+                secondName: 'secondName',
+                patronymic: 'patronymic'
 
         mockMvc
                 .perform(
                         post("/api/auth/signup")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(signUpBody)
+                                .content(json.toString())
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
