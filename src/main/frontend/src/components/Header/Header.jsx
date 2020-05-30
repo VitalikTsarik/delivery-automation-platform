@@ -14,51 +14,48 @@ const Header = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand navbar-dark bg-dark">
-      <Link to={"/"} className="navbar-brand">
-        DAP
-      </Link>
-      <div className="navbar-nav mr-auto">
-        <li className="nav-item">
-          <Link to={"/home"} className="nav-link">
-            Home
-          </Link>
-        </li>
-        {user && (
-          <li className="nav-item">
-            <Link to={"/user"} className="nav-link">
-              User
-            </Link>
-          </li>
+    <nav className="navbar navbar-expand-sm  navbar-dark bg-dark">
+      <div className="container-md">
+        <div className="navbar-brand">
+          DAP
+        </div>
+        <div className="navbar-nav mr-auto">
+          {user && (
+            <li className="nav-item">
+              <Link to={"/dashboard"} className="nav-link">
+                Dashboard
+              </Link>
+            </li>
+          )}
+        </div>
+        {user ? (
+          <div className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <div className="navbar-text">
+                {user.login}
+              </div>
+            </li>
+            <li className="nav-item">
+              <a href="/login" className="nav-link" onClick={logOut}>
+                LogOut
+              </a>
+            </li>
+          </div>
+        ) : (
+          <div className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to={"/login"} className="nav-link">
+                Login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/register"} className="nav-link">
+                Sign Up
+              </Link>
+            </li>
+          </div>
         )}
       </div>
-      {user ? (
-        <div className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <Link to={"/profile"} className="nav-link">
-              {user.login}
-            </Link>
-          </li>
-          <li className="nav-item">
-            <a href="/login" className="nav-link" onClick={logOut}>
-              LogOut
-            </a>
-          </li>
-        </div>
-      ) : (
-        <div className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <Link to={"/login"} className="nav-link">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to={"/register"} className="nav-link">
-              Sign Up
-            </Link>
-          </li>
-        </div>
-      )}
     </nav>
   );
 };
