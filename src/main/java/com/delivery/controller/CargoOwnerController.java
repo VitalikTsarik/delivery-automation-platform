@@ -95,6 +95,7 @@ public class CargoOwnerController {
         }
 
         copyFields(packageDto, packageToUpdate);
+        packageRepository.save(packageToUpdate);
 
         return new ResponseEntity<>(PackageDto.build(packageToUpdate), HttpStatus.OK);
     }
