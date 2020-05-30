@@ -1,41 +1,46 @@
 import React, { Component } from "react";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import Container from "react-bootstrap/Container";
 
-import UserService from "../../services/user.service";
+import AuthService from "../../services/auth.service";
+import CargoOwnerDashboard from "./CargoOwnerDashboard/CargoOwnerDashboard";
+import TransporterDashboard from "./TransporterDashboard/TransporterDashboard";
+import ManagerDashboard from "./ManagerDashboard/ManagerDashboard";
+import { Roles } from "./constants";
 
 export default class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: ""
-    };
-  }
+  state = {
+    userRole: ""
+  };
 
   componentDidMount() {
-    UserService.getPublicContent().then(
-      response => {
-        this.setState({
-          content: response.data
-        });
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    );
+    const user = AuthService.getCurrentUser();
+    if (user && user.role) {
+      this.setState({userRole: user.role});
+    } else {
+      throw Error("Error accessing user");
+    }
   }
 
   render() {
+    let dashboard;
+    switch (this.state.userRole) {
+      case Roles.CARGO_OWNER:
+        dashboard = <CargoOwnerDashboard/>;
+        break;
+      case Roles.TRANSPORTER:
+        dashboard = <TransporterDashboard/>;
+        break;
+      case Roles.MANAGER:
+        dashboard = <ManagerDashboard/>;
+        break;
+    }
     return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
-      </div>
+      <Container>
+        <Jumbotron>
+          {dashboard}
+        </Jumbotron>
+      </Container>
     );
   }
 }
