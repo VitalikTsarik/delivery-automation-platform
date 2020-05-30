@@ -160,4 +160,9 @@ public class TripService {
     public List<Trip> findTripsForCargoOwner(User cargoOwner) {
         return tripRepository.findTripsForCargoOwner(cargoOwner);
     }
+
+    @Transactional
+    public List<Trip> findAll() {
+        return tripRepository.findAll();
+    }
 }
