@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,11 +30,11 @@ public class Trip {
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
-    private List<CityInTrip> routeList;
+    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)
+    private List<CityInTrip> routeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "currentTrip", fetch = FetchType.LAZY)
-    private List<Package> packageList;
+    private List<Package> packageList = new ArrayList<>();
 
     private String car;
 
