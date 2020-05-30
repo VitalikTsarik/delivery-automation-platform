@@ -4,6 +4,7 @@ import com.delivery.entity.Package;
 import com.delivery.repository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,5 +15,10 @@ public class PackageService {
 
     public List<Package> findFreePackages() {
         return packageRepository.findFreePackages();
+    }
+
+    @Transactional
+    public List<Package> findAll() {
+        return packageRepository.findAll();
     }
 }

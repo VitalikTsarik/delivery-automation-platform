@@ -20,6 +20,10 @@ public class TripDto {
     private UserDto transporter;
 
     public static TripDto build(Trip trip) {
+        if (trip == null) {
+            return null;
+        }
+
         List<String> cityNames = trip.getRouteList().stream()
                 .map(x -> x.getCity().getName()).collect(Collectors.toList());
         List<FreePackageDto> packages = trip.getPackageList().stream()

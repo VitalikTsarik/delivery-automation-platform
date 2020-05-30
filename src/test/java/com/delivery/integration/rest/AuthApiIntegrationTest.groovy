@@ -1,4 +1,4 @@
-package com.delivery.integration.test
+package com.delivery.integration.rest
 
 import com.delivery.entity.Role
 import groovy.json.JsonBuilder
