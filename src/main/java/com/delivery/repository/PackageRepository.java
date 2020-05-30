@@ -25,9 +25,9 @@ public interface PackageRepository extends JpaRepository<Package, Long> {
 
     @Modifying
     @Query("update Package p" +
-            " set p.currentTrip=:trip" +
-            " where p.currentTrip is null and p.id in :selectedIds")
-    int bookPackagesForTrip(@Param("trip") Trip trip, @Param("selectedIds") List<Long> selectedIds);
+            " set p.currentTrip.id=:tripId" +
+            " where p.currentTrip is null and p.id=:packageId")
+    int bookPackageForTrip(@Param("packageId") Long packageId, @Param("tripId") long tripId);
 
     List<Package> findAllByCurrentTrip(Trip currentTrip);
 

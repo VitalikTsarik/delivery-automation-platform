@@ -13,21 +13,28 @@ import java.util.stream.Collectors;
 public class TripDto {
     private Long id;
     private Trip.State state;
-    private List<CityInTrip> routeList;
+    private List<String> routeList;
     private List<FreePackageDto> packageList;
     private String car;
-    private CityInTrip currentLocation;
+    private long currentLocation;
     private UserDto transporter;
 
     public static TripDto build(Trip trip) {
+        List<String> cityNames = trip.getRouteList().stream()
+                .map(x -> x.getCity().getName()).collect(Collectors.toList());
+        List<FreePackageDto> packages = trip.getPackageList().stream()
+                .map(FreePackageDto::build).collect(Collectors.toList());
+
+        CityInTrip currentLocation = trip.getCurrentLocation();
+        long order = currentLocation == null ? -1 : currentLocation.getOrder();
+
         return new TripDto(
                 trip.getId(),
                 trip.getState(),
-                trip.getRouteList(),
-                trip.getPackageList().stream()
-                        .map(FreePackageDto::build).collect(Collectors.toList()),
+                cityNames,
+                packages,
                 trip.getCar(),
-                trip.getCurrentLocation(),
+                order,
                 UserDto.build(trip.getTransporter())
         );
     }
