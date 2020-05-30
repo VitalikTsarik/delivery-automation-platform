@@ -156,4 +156,8 @@ public class TripService {
     public List<Trip> findTripsTransporter(User transporter) {
         return tripRepository.findAllByTransporter(transporter);
     }
+
+    public List<Trip> findTripsForCargoOwner(User cargoOwner) {
+        return tripRepository.findTripsForCargoOwner(cargoOwner);
+    }
 }

@@ -1,10 +1,13 @@
 package com.delivery.controller;
 
 import com.delivery.dto.PackageDto;
+import com.delivery.dto.TripDto;
 import com.delivery.entity.Package;
+import com.delivery.entity.Trip;
 import com.delivery.entity.User;
 import com.delivery.repository.PackageRepository;
 import com.delivery.service.CityService;
+import com.delivery.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +39,9 @@ public class CargoOwnerController {
 
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private TripService tripService;
 
     @GetMapping("/packages")
     public ResponseEntity<?> getAllPackages(@AuthenticationPrincipal @ApiIgnore User user) {
@@ -110,6 +116,19 @@ public class CargoOwnerController {
         packageRepository.deleteById(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/trips")
+    public ResponseEntity<?> getTripsForPackages(
+            @ApiIgnore @AuthenticationPrincipal User cargoOwner
+    ) {
+        List<Trip> tripList = tripService.findTripsForCargoOwner(cargoOwner);
+
+        return ResponseEntity.ok(
+                tripList.stream()
+                        .map(TripDto::build)
+                        .collect(Collectors.toList())
+        );
     }
 
     private void copyFields(PackageDto from, Package to) {
