@@ -5,11 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import Header from "../Header/Header";
-import Login from "../auth/login";
-import Register from "../auth/register";
-import Home from "../Home/Home";
-import Profile from "../Profile/Profile";
-import BoardUser from "../board-user.component";
+import Login from "../auth/Login";
+import Register from "../auth/Register";
+import Dashboard from "../Dashboard/Dashboard";
 
 class App extends Component {
   render() {
@@ -18,11 +16,9 @@ class App extends Component {
         <Header />
           <div className="container mt-3">
             <Switch>
-              <Route exact path={["/", "/home"]} component={Home} />
+              <Route exact path={["/", "/dashboard"]} component={Dashboard} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
-              <Route exact path="/profile" component={Profile} />
-              <Route path="/user" component={BoardUser} />
             </Switch>
           </div>
       </Router>
