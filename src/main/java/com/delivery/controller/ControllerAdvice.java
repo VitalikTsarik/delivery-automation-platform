@@ -2,6 +2,7 @@ package com.delivery.controller;
 
 import com.delivery.dto.ExceptionDto;
 import com.delivery.exception.InvalidCityOrderException;
+import com.delivery.exception.RouteException;
 import com.delivery.exception.TripInvalidStateException;
 import com.delivery.exception.TripNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,16 @@ public class ControllerAdvice {
 
     @ExceptionHandler
     public ResponseEntity<?> handleException(InvalidCityOrderException exc) {
+        ExceptionDto response = new ExceptionDto(
+                exc.getMessage(),
+                clock.millis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleException(RouteException exc) {
         ExceptionDto response = new ExceptionDto(
                 exc.getMessage(),
                 clock.millis()

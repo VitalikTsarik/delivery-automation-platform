@@ -6,6 +6,7 @@ import com.delivery.entity.Package;
 import com.delivery.entity.Trip;
 import com.delivery.entity.User;
 import com.delivery.exception.InvalidCityOrderException;
+import com.delivery.exception.RouteException;
 import com.delivery.exception.TripInvalidStateException;
 import com.delivery.exception.TripNotFoundException;
 import com.delivery.repository.CityInTripRepository;
@@ -46,9 +47,8 @@ public class TripService {
 
     public Trip startTrip(
             long tripId,
-            User transporter,
-            List<String> route
-    ) throws TripNotFoundException, TripInvalidStateException {
+            User transporter
+    ) throws TripNotFoundException, TripInvalidStateException, RouteException {
         Trip trip = findTripByIdAndTransporter(tripId, transporter);
         if (trip == null) {
             throw new TripNotFoundException("User haven't this trip");
@@ -57,13 +57,14 @@ public class TripService {
             throw new TripInvalidStateException(trip.getState());
         }
 
-        for (int i = 0; i < route.size(); i++) {
-            City city = cityService.getOrAdd(route.get(i));
-            CityInTrip cityInTrip = new CityInTrip(city, trip, i);
-            cityInTripRepository.save(cityInTrip);
+        List<CityInTrip> route = trip.getRouteList();
+        if (route.size() <= 1) {
+            throw new RouteException("Wrong routeList size: " + route.size());
         }
 
+        route.sort(CityInTrip.comparator);
         trip.setState(Trip.State.STARTED);
+        trip.setCurrentLocation(route.get(0));
         tripRepository.save(trip);
 
         return trip;
@@ -119,6 +120,31 @@ public class TripService {
         } else {
             return false;
         }
+    }
+
+    @Transactional
+    public Trip assignRouteForTrip(
+            long tripId,
+            List<String> route,
+            User transporter
+    ) throws TripNotFoundException, TripInvalidStateException {
+        Trip trip = findTripByIdAndTransporter(tripId, transporter);
+        if (trip == null) {
+            throw new TripNotFoundException("User haven't this trip");
+        }
+        if (trip.getState() != Trip.State.CREATING) {
+            throw new TripInvalidStateException(trip.getState());
+        }
+
+        cityInTripRepository.deleteAllByTrip(trip);
+        for (int i = 0; i < route.size(); i++) {
+            City city = cityService.getOrAdd(route.get(i));
+            CityInTrip cityInTrip = new CityInTrip(city, trip, i);
+            cityInTripRepository.save(cityInTrip);
+        }
+        tripRepository.save(trip);
+
+        return trip;
     }
 
     public Trip updateCurrentCityInTrip(

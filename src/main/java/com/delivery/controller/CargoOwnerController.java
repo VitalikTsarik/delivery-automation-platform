@@ -66,7 +66,7 @@ public class CargoOwnerController {
 
         packageRepository.save(newPackage);
 
-        return new ResponseEntity<>(PackageDto.build(newPackage), HttpStatus.CREATED);
+        return new ResponseEntity<>(PackageDto.build(newPackage), HttpStatus.OK);
     }
 
     @GetMapping("/package/{id}")

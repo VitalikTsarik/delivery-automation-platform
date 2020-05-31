@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TripToStartDto {
-    private long id;
+public class RouteForTripDto {
+    private long tripId;
     private List<String> route;
 }

@@ -8,10 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Comparator;
 
 @Entity
 @Table(name = "city_join_trip")
 public class CityInTrip {
+
+    public static ComparatorByOrder comparator = new ComparatorByOrder();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +23,7 @@ public class CityInTrip {
     public CityInTrip() {
     }
 
-    public CityInTrip(City city, Trip trip, long order) {
+    public CityInTrip(City city, Trip trip, int order) {
         this.city = city;
         this.trip = trip;
         this.order = order;
@@ -34,7 +38,7 @@ public class CityInTrip {
     private Trip trip;
 
     @Column(name = "city_order")
-    private long order;
+    private int order;
 
     public Long getId() {
         return id;
@@ -56,11 +60,18 @@ public class CityInTrip {
         this.trip = trip;
     }
 
-    public long getOrder() {
+    public int getOrder() {
         return order;
     }
 
-    public void setOrder(long order) {
+    public void setOrder(int order) {
         this.order = order;
+    }
+
+    public static class ComparatorByOrder implements Comparator<CityInTrip> {
+        @Override
+        public int compare(CityInTrip o1, CityInTrip o2) {
+            return o1.getOrder() - o2.getOrder();
+        }
     }
 }
