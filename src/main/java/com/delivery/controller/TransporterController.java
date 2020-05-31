@@ -3,11 +3,12 @@ package com.delivery.controller;
 import com.delivery.dto.FreePackageDto;
 import com.delivery.dto.TripDto;
 import com.delivery.dto.TripToCreateDto;
-import com.delivery.dto.TripToStartDto;
+import com.delivery.dto.RouteForTripDto;
 import com.delivery.entity.Package;
 import com.delivery.entity.Trip;
 import com.delivery.entity.User;
 import com.delivery.exception.InvalidCityOrderException;
+import com.delivery.exception.RouteException;
 import com.delivery.exception.TripInvalidStateException;
 import com.delivery.exception.TripNotFoundException;
 import com.delivery.service.PackageService;
@@ -100,9 +101,9 @@ public class TransporterController {
     @PostMapping("/trip/started")
     public ResponseEntity<?> startTrip(
             @AuthenticationPrincipal @ApiIgnore User transporter,
-            @RequestBody TripToStartDto tripDto
-    ) throws TripInvalidStateException, TripNotFoundException {
-        Trip trip = tripService.startTrip(tripDto.getId(), transporter, tripDto.getRoute());
+            @RequestParam long tripId
+    ) throws TripInvalidStateException, TripNotFoundException, RouteException {
+        Trip trip = tripService.startTrip(tripId, transporter);
 
         return ResponseEntity.ok(TripDto.build(trip));
     }
@@ -114,6 +115,20 @@ public class TransporterController {
             @RequestParam long tripId
     ) throws TripNotFoundException, TripInvalidStateException {
         Trip updatedTrip = tripService.addPackageToTrip(packageId, tripId, transporter);
+
+        return ResponseEntity.ok(TripDto.build(updatedTrip));
+    }
+
+    @PutMapping("/trip/route")
+    public ResponseEntity<?> assignRouteForTrip(
+            @AuthenticationPrincipal @ApiIgnore User transporter,
+            @RequestBody RouteForTripDto routeForTripDto
+    ) throws TripInvalidStateException, TripNotFoundException {
+        Trip updatedTrip = tripService.assignRouteForTrip(
+                routeForTripDto.getTripId(),
+                routeForTripDto.getRoute(),
+                transporter
+        );
 
         return ResponseEntity.ok(TripDto.build(updatedTrip));
     }
