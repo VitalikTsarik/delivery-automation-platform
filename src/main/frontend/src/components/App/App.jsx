@@ -17,8 +17,8 @@ const App = () => {
       <Header/>
       <div className="container mt-3">
         <Switch>
-          <Route exact path={"/"} component={user ? Dashboard : Login}/>
-          <Route exact path={"/dashboard"} component={Dashboard}/>
+          <Route exact path="/" component={user ? Dashboard : Login}/>
+          <Route exact path="/dashboard" component={Dashboard}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/register" component={Register}/>
         </Switch>

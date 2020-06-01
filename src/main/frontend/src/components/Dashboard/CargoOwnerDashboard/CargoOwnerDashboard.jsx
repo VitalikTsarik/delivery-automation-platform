@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import CargoModal from "./CargoForm/CargoForm";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import "./CargoOwnerDashboard.css";
 
 import CargoOwnerService from "../../../services/cargo-owner.service";
+import CargoModal from "../../common/CargoModal/CargoModal";
 
 const CargoOwnerDashboard = () => {
   const [packages, setPackages] = useState([]);
@@ -41,6 +41,7 @@ const CargoOwnerDashboard = () => {
   };
   return (
     <>
+      <h2>Your packages</h2>
       <div className="content">
         <Table striped bordered hover>
           <thead>
@@ -81,7 +82,7 @@ const CargoOwnerDashboard = () => {
         </Table>
         {(packages.length === 0) && <span>Your don't have any packages. Try creating one </span>}
         <div className="add">
-          <Button onClick={handleAdd}>add</Button>
+          <Button onClick={handleAdd}>Add</Button>
         </div>
       </div>
       <CargoModal
