@@ -1,5 +1,6 @@
 package com.delivery.controller;
 
+import com.delivery.dto.PackageDetailedDto;
 import com.delivery.dto.PackageDto;
 import com.delivery.dto.TripDto;
 import com.delivery.entity.Package;
@@ -50,7 +51,7 @@ public class CargoOwnerController {
         return ResponseEntity.ok(
                 packages
                         .stream()
-                        .map(PackageDto::build)
+                        .map(PackageDetailedDto::build)
                         .collect(Collectors.toList())
         );
     }
@@ -76,7 +77,7 @@ public class CargoOwnerController {
     ) {
         Package cargo = packageRepository.findByIdAndOwner(id, user);
 
-        return ResponseEntity.ok(PackageDto.build(cargo));
+        return ResponseEntity.ok(PackageDetailedDto.build(cargo));
     }
 
     @PutMapping("/package/{id}")
