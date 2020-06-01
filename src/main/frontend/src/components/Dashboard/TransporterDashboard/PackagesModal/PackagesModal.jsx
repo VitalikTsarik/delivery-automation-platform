@@ -18,7 +18,7 @@ const PackagesModal = ({trip, ...props}) => {
     (async () => {
       setPackages(await TransporterService.getFreePackages());
     })();
-  }, []);
+  }, [trip]);
   useEffect(() => {
     if (trip) {
       setSelectedPackages(trip.packageList);
