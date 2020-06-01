@@ -70,6 +70,21 @@ public class TripService {
         return trip;
     }
 
+    public Trip finishTrip(long tripId, User transporter) throws TripNotFoundException, TripInvalidStateException {
+        Trip trip = findTripByIdAndTransporter(tripId, transporter);
+        if (trip == null) {
+            throw new TripNotFoundException("User haven't this trip");
+        }
+        if (trip.getState() != Trip.State.STARTED) {
+            throw new TripInvalidStateException(trip.getState());
+        }
+
+        trip.setState(Trip.State.FINISHED);
+        tripRepository.save(trip);
+
+        return trip;
+    }
+
     @Transactional
     public Trip addPackageToTrip(
             final long packageId,

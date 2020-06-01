@@ -108,6 +108,16 @@ public class TransporterController {
         return ResponseEntity.ok(TripDto.build(trip));
     }
 
+    @PostMapping("/trip/finished")
+    public ResponseEntity<?> finishTrip(
+            @AuthenticationPrincipal @ApiIgnore User transporter,
+            @RequestParam long tripId
+    ) throws TripInvalidStateException, TripNotFoundException {
+        Trip trip = tripService.finishTrip(tripId, transporter);
+
+        return ResponseEntity.ok(TripDto.build(trip));
+    }
+
     @PutMapping("/trip/package")
     public ResponseEntity<?> addPackageToTrip(
             @AuthenticationPrincipal @ApiIgnore User transporter,
