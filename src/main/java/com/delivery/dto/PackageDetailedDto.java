@@ -21,7 +21,7 @@ public class PackageDetailedDto {
     private long cost;
     private String initialLocation;
     private String targetLocation;
-    private TripDto currentTrip;
+    private TripInPackageDto currentTrip;
 
     public static PackageDetailedDto build(Package cargo) {
         return new PackageDetailedDto(
@@ -34,7 +34,7 @@ public class PackageDetailedDto {
                 cargo.getCost(),
                 cargo.getInitialLocation().getName(),
                 cargo.getTargetLocation().getName(),
-                TripDto.build(cargo.getCurrentTrip())
+                TripInPackageDto.build(cargo.getCurrentTrip())
         );
     }
 }
