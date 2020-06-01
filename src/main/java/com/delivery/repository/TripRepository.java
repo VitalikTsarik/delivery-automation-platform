@@ -17,7 +17,11 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     @Query("select trip" +
             " from Trip trip" +
-            "   join Package package on trip.id=package.currentTrip.id" +
-            " where package.owner=:cargoOwner")
+            " where trip.id in (" +
+            "   select p.currentTrip.id" +
+            "     from Package p " +
+            "     where p.owner=:cargoOwner" +
+            " )" +
+            " order by trip.id")
     List<Trip> findTripsForCargoOwner(@Param("cargoOwner") User cargoOwner);
 }

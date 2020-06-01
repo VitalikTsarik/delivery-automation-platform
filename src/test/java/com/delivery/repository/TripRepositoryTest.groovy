@@ -4,13 +4,12 @@ import com.delivery.entity.Package
 import com.delivery.entity.Role
 import com.delivery.entity.Trip
 import com.delivery.entity.User
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
-
-import static org.junit.Assert.assertTrue
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -30,7 +29,6 @@ class TripRepositoryTest {
         User transporter = new User()
         transporter.role = Role.TRANSPORTER
         userRepository.save(transporter)
-
         List<Package> savedPackages = []
         3.times {
             Package aPackage = new Package()
@@ -44,9 +42,10 @@ class TripRepositoryTest {
         trip.packageList.forEach({x -> x.currentTrip = trip})
         tripRepository.save(trip)
 
-        def foundTrips = tripRepository.findTripsForCargoOwner(cargoOwner) as HashSet
+        def foundTrips = tripRepository.findTripsForCargoOwner(cargoOwner)
 
-        boolean result = [trip] as HashSet == foundTrips
-        assertTrue(result)
+        Assert.assertTrue(foundTrips.size() == 1)
+        Assert.assertTrue(foundTrips[0] == trip)
+        Assert.assertTrue(foundTrips[0].getPackageList() == trip.getPackageList())
     }
 }
