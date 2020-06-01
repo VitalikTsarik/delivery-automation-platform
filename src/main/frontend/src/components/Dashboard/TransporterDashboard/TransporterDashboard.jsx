@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
 
 import TransporterService from "../../../services/transporter.service";
-import Table from "react-bootstrap/Table";
-import Trip from "./Trip/Trip";
+import TripsTable from "../../common/TripsTable/TripsTable";
 import PackagesModal from "./PackagesModal/PackagesModal";
-import Button from "react-bootstrap/Button";
 import TripModal from "./TripModal/TripModal";
 import RouteModal from "./RouteModal/RouteModal";
 
@@ -56,31 +55,15 @@ const TransporterDashboard = () => {
     <>
       <h2>Your trips</h2>
       <div className="content">
-        <Table striped bordered hover>
-          <thead>
-          <tr>
-            <th>Car</th>
-            <th>Route</th>
-            <th>Packages</th>
-            <th>Current location</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          {trips.map((trip) => (
-            <Trip
-              key={trip.id}
-              trip={trip}
-              onNext={(order) => handleNext(order, trip.id)}
-              onPackages={() => handlePackages(trip.id)}
-              onRoute={() => handleRoute(trip.id)}
-              onStart={() => handleStart(trip.id)}
-            />
-          ))}
-          </tbody>
-        </Table>
+        <TripsTable
+          trips={trips}
+          onNext={handleNext}
+          onPackages={handlePackages}
+          onRoute={handleRoute}
+          onStart={handleStart}
+        />
         {(trips.length === 0) && <span>Your don't have any trips. Try creating one </span>}
-        <div className="add">
+        <div className="mb-4">
           <Button onClick={handleAdd}>Add</Button>
         </div>
       </div>

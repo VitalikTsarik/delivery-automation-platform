@@ -4,7 +4,7 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/api/cargo-owner/";
 
 class CargoOwnerService {
-  getContent() {
+  getPackages() {
     return axios.get(API_URL + "packages", {headers: authHeader()})
       .then(response => response.data);
   }
@@ -24,6 +24,11 @@ class CargoOwnerService {
 
   removePackage(id) {
     return axios.delete(API_URL + `package/${id}`, {headers: authHeader()});
+  }
+
+  getTrips() {
+    return axios.get(API_URL + "trips", {headers: authHeader()})
+      .then(response => response.data);
   }
 }
 

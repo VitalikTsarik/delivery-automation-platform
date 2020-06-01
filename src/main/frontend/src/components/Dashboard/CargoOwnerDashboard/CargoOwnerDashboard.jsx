@@ -7,16 +7,19 @@ import "./CargoOwnerDashboard.css";
 
 import CargoOwnerService from "../../../services/cargo-owner.service";
 import CargoModal from "../../common/CargoModal/CargoModal";
+import TripsTable from "../../common/TripsTable/TripsTable";
 
 const CargoOwnerDashboard = () => {
   const [packages, setPackages] = useState([]);
+  const [trips, setTrips] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalItem, setModalItem] = useState({});
 
   useEffect(() => {
     (async () => {
-      setPackages(await CargoOwnerService.getContent());
+      setPackages(await CargoOwnerService.getPackages());
+      setTrips(await CargoOwnerService.getTrips());
     })();
   }, []);
 
@@ -36,7 +39,7 @@ const CargoOwnerDashboard = () => {
     setModalShow(true);
   };
   const handleHide = async () => {
-    setPackages(await CargoOwnerService.getContent());
+    setPackages(await CargoOwnerService.getPackages());
     setModalShow(false);
   };
   return (
@@ -81,10 +84,12 @@ const CargoOwnerDashboard = () => {
           </tbody>
         </Table>
         {(packages.length === 0) && <span>Your don't have any packages. Try creating one </span>}
-        <div className="add">
+        <div className="mb-4">
           <Button onClick={handleAdd}>Add</Button>
         </div>
       </div>
+      <h2>Trips with your packages</h2>
+      <TripsTable trips={trips}/>
       <CargoModal
         show={modalShow}
         edit={modalEdit}
