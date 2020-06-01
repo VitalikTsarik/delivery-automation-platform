@@ -4,12 +4,12 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
-const PackagesTable = ({packages, onSelect, onDetail}) => {
+const PackagesTable = ({packages, select, onDetail}) => {
   return (
     <Table>
       <thead>
       <tr>
-        {onSelect && <th/>}
+        {select && <th/>}
         <th>Name</th>
         <th>Initial Location</th>
         <th>Target Location</th>
@@ -20,11 +20,11 @@ const PackagesTable = ({packages, onSelect, onDetail}) => {
       <tbody>
       {Boolean(packages.length) && packages.map((item) => (
         <tr key={item.id}>
-          {onSelect && (
+          {select && (
             <td>
               <FormCheck
-                checked={selectedPackages.find((value => value.id === item.id))}
-                onChange={() => onSelect(item.id)}
+                checked={select.selectedPackages.find((value => value.id === item.id))}
+                onChange={() => select.onSelect(item.id)}
               />
             </td>
           )}

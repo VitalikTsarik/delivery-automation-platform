@@ -50,7 +50,10 @@ const PackagesModal = ({trip, ...props}) => {
       <Modal.Body className="content">
         <PackagesTable
           packages={packages}
-          onSelect={handleSelect}
+          select={{
+            selectedPackages: selectedPackages,
+            onSelect: handleSelect,
+          }}
           onDetail={handleDetail}
         />
         {(packages.length === 0) && <span>There are no packages available</span>}
