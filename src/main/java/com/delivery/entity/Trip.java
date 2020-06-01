@@ -21,6 +21,7 @@ public class Trip {
     public enum State {
         CREATING,
         STARTED,
+        FINISHED
     }
 
     @Id
