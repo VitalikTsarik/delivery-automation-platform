@@ -25,7 +25,7 @@ const CargoModal = ({edit = false, disabled = false, item = {}, ...props}) => {
       <Modal.Header closeButton>
         {item.name && (
           <Modal.Title>
-            Cargo "{item.name}"
+            Package "{item.name}"
           </Modal.Title>
         )}
       </Modal.Header>
