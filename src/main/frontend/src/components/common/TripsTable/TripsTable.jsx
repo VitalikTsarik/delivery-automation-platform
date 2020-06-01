@@ -3,7 +3,7 @@ import Table from "react-bootstrap/Table";
 
 import Trip from "./Trip/Trip";
 
-const TripsTable = ({trips, onNext, onPackages, onRoute, onStart}) => {
+const TripsTable = ({trips, actions}) => {
   return (
     <Table striped bordered hover>
       <thead>
@@ -12,7 +12,7 @@ const TripsTable = ({trips, onNext, onPackages, onRoute, onStart}) => {
         <th>Packages</th>
         <th>Route</th>
         <th>Current location</th>
-        {onNext && <th>Actions</th>}
+        {actions && <th>Actions</th>}
       </tr>
       </thead>
       <tbody>
@@ -20,10 +20,12 @@ const TripsTable = ({trips, onNext, onPackages, onRoute, onStart}) => {
         <Trip
           key={trip.id}
           trip={trip}
-          onNext={onNext && ((order) => onNext(order, trip.id))}
-          onPackages={onPackages && (() => onPackages(trip.id))}
-          onRoute={onRoute && (() => onRoute(trip.id))}
-          onStart={onStart && (() => onStart(trip.id))}
+          actions={actions && {
+            onNext: (order) => actions.onNext(order, trip.id),
+            onPackages: () => actions.onPackages(trip.id),
+            onRoute: () => actions.onRoute(trip.id),
+            onStart: () => actions.onStart(trip.id),
+          }}
         />
       ))}
       </tbody>

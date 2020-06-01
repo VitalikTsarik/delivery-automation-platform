@@ -57,10 +57,12 @@ const TransporterDashboard = () => {
       <div className="content">
         <TripsTable
           trips={trips}
-          onNext={handleNext}
-          onPackages={handlePackages}
-          onRoute={handleRoute}
-          onStart={handleStart}
+          actions={{
+            onNext: handleNext,
+            onPackages: handlePackages,
+            onRoute: handleRoute,
+            onStart: handleStart,
+          }}
         />
         {(trips.length === 0) && <span>Your don't have any trips. Try creating one </span>}
         <div className="mb-4">

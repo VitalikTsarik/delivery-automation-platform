@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
-import FormCheck from "react-bootstrap/FormCheck";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import TransporterService from "../../../../services/transporter.service";
 import CargoModal from "../../../common/CargoModal/CargoModal";
+import PackagesTable from "../../../common/PackagesTable/PackagesTable";
 
 const PackagesModal = ({trip, ...props}) => {
   const [packages, setPackages] = useState([]);
@@ -51,50 +48,17 @@ const PackagesModal = ({trip, ...props}) => {
         <Modal.Title>Available packages</Modal.Title>
       </Modal.Header>
       <Modal.Body className="content">
-        <Table>
-          <thead>
-          <tr>
-            <th/>
-            <th>Name</th>
-            <th>Initial Location</th>
-            <th>Target Location</th>
-            <th>Cost</th>
-            <th/>
-          </tr>
-          </thead>
-          <tbody>
-          {Boolean(packages.length) && packages.map((item) => (
-            <tr key={item.id}>
-              <td>
-                <FormCheck
-                  checked={selectedPackages.find((value => value.id === item.id))}
-                  onChange={() => handleSelect(item.id)}
-                />
-              </td>
-              <td>{item.name}</td>
-              <td>{item.initialLocation.name}</td>
-              <td>{item.targetLocation.name}</td>
-              <td>${item.cost}</td>
-              <td>
-                <ButtonGroup>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleDetail(item.id)}
-                  >
-                    Detail
-                  </Button>
-                </ButtonGroup>
-              </td>
-            </tr>
-          ))}
-          </tbody>
-        </Table>
+        <PackagesTable
+          packages={packages}
+          onSelect={handleSelect}
+          onDetail={handleDetail}
+        />
         {(packages.length === 0) && <span>There are no packages available</span>}
       </Modal.Body>
       <CargoModal
         show={modalShow}
         item={modalItem}
-        disabled={true}
+        disabled
         onHide={() => setModalShow(false)}
       />
     </Modal>

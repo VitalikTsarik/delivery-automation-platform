@@ -145,7 +145,7 @@ export default class Register extends Component {
                     <option value="">Choose your role</option>
                     <option value="0">Cargo owner</option>
                     <option value="1">Transporter</option>
-                    <option value="2">Manage</option>
+                    <option value="2">Manager</option>
                   </Select>
                 </div>
                 <div className="form-group">

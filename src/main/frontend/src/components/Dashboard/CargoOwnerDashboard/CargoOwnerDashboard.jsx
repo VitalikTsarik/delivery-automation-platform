@@ -8,6 +8,7 @@ import "./CargoOwnerDashboard.css";
 import CargoOwnerService from "../../../services/cargo-owner.service";
 import CargoModal from "../../common/CargoModal/CargoModal";
 import TripsTable from "../../common/TripsTable/TripsTable";
+import PackagesTable from "./PackagesTable/PackagesTable";
 
 const CargoOwnerDashboard = () => {
   const [packages, setPackages] = useState([]);
@@ -46,43 +47,13 @@ const CargoOwnerDashboard = () => {
     <>
       <h2>Your packages</h2>
       <div className="content">
-        <Table striped bordered hover>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Initial Location</th>
-            <th>Target Location</th>
-            <th>Cost</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          {Boolean(packages.length) && packages.map((item) => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{item.initialLocation}</td>
-              <td>{item.targetLocation}</td>
-              <td>${item.cost}</td>
-              <td>
-                <ButtonGroup>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleEdit(item.id)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleRemove(item.id)}
-                  >
-                    Remove
-                  </Button>
-                </ButtonGroup>
-              </td>
-            </tr>
-          ))}
-          </tbody>
-        </Table>
+        <PackagesTable
+          packages={packages}
+          actions={{
+            onEdit: handleEdit,
+            onRemove: handleRemove,
+          }}
+        />
         {(packages.length === 0) && <span>Your don't have any packages. Try creating one </span>}
         <div className="mb-4">
           <Button onClick={handleAdd}>Add</Button>

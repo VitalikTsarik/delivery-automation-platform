@@ -2,7 +2,7 @@ import React from "react";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
-const Trip = ({trip, onNext, onPackages, onRoute, onStart}) => {
+const Trip = ({trip, actions}) => {
   const packages = trip.packageList.map((item, index) => (
     <span key={item.id}>{item.name}{(index !== trip.packageList.length - 1) && ", "}</span>
   ));
@@ -19,20 +19,20 @@ const Trip = ({trip, onNext, onPackages, onRoute, onStart}) => {
       <td>{packages}</td>
       <td>{route}</td>
       <td>{started ? trip.routeList[trip.currentLocation] : "Not started"}</td>
-      {onNext && (
+      {actions && (
         <td>
           {started ? (
             <ButtonGroup>
               <Button
                 variant="primary"
-                onClick={() => onNext(trip.currentLocation - 1)}
+                onClick={() => actions.onNext(trip.currentLocation - 1)}
                 disabled={first}
               >
                 Previous
               </Button>
               <Button
                 variant="primary"
-                onClick={() => onNext(trip.currentLocation + 1)}
+                onClick={() => actions.onNext(trip.currentLocation + 1)}
                 disabled={finished}
               >
                 Next
@@ -42,19 +42,19 @@ const Trip = ({trip, onNext, onPackages, onRoute, onStart}) => {
             <ButtonGroup>
               <Button
                 variant="primary"
-                onClick={onPackages}
+                onClick={actions.onPackages}
               >
                 Packages
               </Button>
               <Button
                 variant="primary"
-                onClick={onRoute}
+                onClick={actions.onRoute}
               >
                 Route
               </Button>
               <Button
                 variant="success"
-                onClick={onStart}
+                onClick={actions.onStart}
                 disabled={trip.packageList.length === 0 || routeList.length === 0}
               >
                 Start
