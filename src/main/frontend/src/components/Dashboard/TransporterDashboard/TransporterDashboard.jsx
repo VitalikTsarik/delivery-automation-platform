@@ -36,6 +36,10 @@ const TransporterDashboard = () => {
     await TransporterService.startTrip(id);
     setTrips(await TransporterService.getTrips());
   };
+  const handleFinish = async (id) => {
+    await TransporterService.finishTrip(id);
+    setTrips(await TransporterService.getTrips());
+  };
   const handleAdd = () => {
     setModalTrip(true);
   };
@@ -62,6 +66,7 @@ const TransporterDashboard = () => {
             onPackages: handlePackages,
             onRoute: handleRoute,
             onStart: handleStart,
+            onFinish: handleFinish,
           }}
         />
         {(trips.length === 0) && <span>Your don't have any trips. Try creating one </span>}

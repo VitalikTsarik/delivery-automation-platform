@@ -4,31 +4,28 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/api/cargo-owner/";
 
 class CargoOwnerService {
-  getPackages() {
-    return axios.get(API_URL + "packages", {headers: authHeader()})
-      .then(response => response.data);
+  async getPackages() {
+    return (await axios.get(API_URL + "packages", {headers: authHeader()})).data;
   }
 
-  createPackage(item) {
+  async createPackage(item) {
     return axios.post(API_URL + "package", {...item}, {headers: authHeader()});
   }
 
-  getPackage(id) {
-    return axios.get(API_URL + `package/${id}`, {headers: authHeader()})
-      .then(response => response.data);
+  async getPackage(id) {
+    return (await axios.get(API_URL + `package/${id}`, {headers: authHeader()})).data;
   }
 
-  editPackage({id, ...item}) {
+  async editPackage({id, ...item}) {
     return axios.put(API_URL + `package/${id}`, {...item}, {headers: authHeader()});
   }
 
-  removePackage(id) {
+  async removePackage(id) {
     return axios.delete(API_URL + `package/${id}`, {headers: authHeader()});
   }
 
-  getTrips() {
-    return axios.get(API_URL + "trips", {headers: authHeader()})
-      .then(response => response.data);
+  async getTrips() {
+    return (await axios.get(API_URL + "trips", {headers: authHeader()})).data;
   }
 }
 

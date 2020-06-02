@@ -25,6 +25,7 @@ const TripsTable = ({trips, actions}) => {
             onPackages: () => actions.onPackages(trip.id),
             onRoute: () => actions.onRoute(trip.id),
             onStart: () => actions.onStart(trip.id),
+            onFinish: () => actions.onFinish(trip.id),
           }}
         />
       ))}

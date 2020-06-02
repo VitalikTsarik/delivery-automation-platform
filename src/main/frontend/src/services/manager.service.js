@@ -5,14 +5,12 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/api/manager/";
 
 class ManagerService {
-  getPackages() {
-    return axios.get(API_URL + "packages", {headers: authHeader()})
-      .then(response => response.data);
+  async getPackages() {
+    return (await axios.get(API_URL + "packages", {headers: authHeader()})).data;
   }
 
-  getTrips() {
-    return axios.get(API_URL + "trips", {headers: authHeader()})
-      .then(response => response.data);
+  async getTrips() {
+    return (await axios.get(API_URL + "trips", {headers: authHeader()})).data;
   }
 }
 
