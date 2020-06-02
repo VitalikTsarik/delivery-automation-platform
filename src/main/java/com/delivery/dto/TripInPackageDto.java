@@ -17,6 +17,10 @@ public class TripInPackageDto {
     private CityInTrip currentLocation;
 
     public static TripInPackageDto build(Trip trip) {
+        if (trip == null) {
+            return null;
+        }
+
         return new TripInPackageDto(
                 trip.getId(),
                 trip.getState(),
