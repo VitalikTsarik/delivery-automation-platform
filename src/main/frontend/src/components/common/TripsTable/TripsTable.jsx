@@ -5,7 +5,7 @@ import Trip from "./Trip/Trip";
 
 const TripsTable = ({trips, actions}) => {
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover responsive>
       <thead>
       <tr>
         <th>Car</th>

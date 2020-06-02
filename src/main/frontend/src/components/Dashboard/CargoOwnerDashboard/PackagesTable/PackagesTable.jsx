@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 
 const PackagesTable = ({packages, actions}) => {
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover responsive>
       <thead>
       <tr>
         <th>Name</th>
@@ -24,20 +24,22 @@ const PackagesTable = ({packages, actions}) => {
           <td>${item.cost}</td>
           {actions && (
             <td>
-              <ButtonGroup>
-                <Button
-                  variant="primary"
-                  onClick={() => actions.onEdit(item.id)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => actions.onRemove(item.id)}
-                >
-                  Remove
-                </Button>
-              </ButtonGroup>
+              {!item.tripId && (
+                <ButtonGroup>
+                  <Button
+                    variant="primary"
+                    onClick={() => actions.onEdit(item.id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => actions.onRemove(item.id)}
+                  >
+                    Remove
+                  </Button>
+                </ButtonGroup>
+              )}
             </td>
           )}
         </tr>

@@ -6,7 +6,7 @@ import Table from "react-bootstrap/Table";
 
 const PackagesTable = ({packages, select, onDetail}) => {
   return (
-    <Table>
+    <Table responsive>
       <thead>
       <tr>
         {select && <th/>}
@@ -23,7 +23,7 @@ const PackagesTable = ({packages, select, onDetail}) => {
           {select && (
             <td>
               <FormCheck
-                checked={select.selectedPackages.find((value => value.id === item.id))}
+                defaultChecked={select.selectedPackages.find((value => value.id === item.id))}
                 onChange={() => select.onSelect(item.id)}
               />
             </td>

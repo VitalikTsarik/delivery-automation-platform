@@ -13,7 +13,12 @@ const PackagesModal = ({trip, ...props}) => {
 
   useEffect(() => {
     (async () => {
-      setPackages(await TransporterService.getFreePackages());
+      const freePackages = await TransporterService.getFreePackages();
+      if (trip) {
+        setPackages([...trip.packageList, ...freePackages]);
+      } else {
+        setPackages(freePackages);
+      }
     })();
   }, [trip]);
   useEffect(() => {
@@ -28,7 +33,7 @@ const PackagesModal = ({trip, ...props}) => {
     setModalShow(true);
   };
   const handleSelect = async (id) => {
-    const selected = selectedPackages.find(item => item.id === id);
+    const selected = selectedPackages.some(item => item.id === id);
     const item = packages.find(item => item.id === id);
     if (selected) {
       await TransporterService.removePackage(trip.id, id);
