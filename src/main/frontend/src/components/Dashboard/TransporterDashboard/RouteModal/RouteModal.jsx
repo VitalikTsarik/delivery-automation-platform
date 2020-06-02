@@ -9,7 +9,7 @@ const RouteModal = ({trip, ...props}) => {
   const [routeList, setRouteList] = useState([]);
   useEffect(() => {
     if (trip) {
-      setRouteList(trip.routeList.map((item, index) => ({id: item, text: item})));
+      setRouteList(trip.routeList.map((item, index) => ({id: `${item}${index}`, text: item})));
     }
   }, [trip]);
 
