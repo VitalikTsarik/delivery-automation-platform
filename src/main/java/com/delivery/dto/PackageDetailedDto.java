@@ -1,6 +1,8 @@
 package com.delivery.dto;
 
 import com.delivery.entity.Package;
+import com.delivery.entity.Trip;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -21,9 +23,13 @@ public class PackageDetailedDto {
     private long cost;
     private String initialLocation;
     private String targetLocation;
-    private TripInPackageDto currentTrip;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long tripId;
 
     public static PackageDetailedDto build(Package cargo) {
+        Trip currentTrip = cargo.getCurrentTrip();
+
         return new PackageDetailedDto(
                 cargo.getId(),
                 cargo.getName(),
@@ -34,7 +40,7 @@ public class PackageDetailedDto {
                 cargo.getCost(),
                 cargo.getInitialLocation().getName(),
                 cargo.getTargetLocation().getName(),
-                TripInPackageDto.build(cargo.getCurrentTrip())
+                currentTrip == null ? null : currentTrip.getId()
         );
     }
 }

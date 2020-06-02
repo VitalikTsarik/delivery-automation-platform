@@ -1,20 +1,20 @@
 package com.delivery.dto;
 
-import com.delivery.entity.CityInTrip;
 import com.delivery.entity.Trip;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 public class TripInPackageDto {
     private Long id;
     private Trip.State state;
-    private List<CityInTrip> routeList;
+    private List<CityInTripDto> routeList;
     private String car;
-    private CityInTrip currentLocation;
+    private CityInTripDto currentLocation;
 
     public static TripInPackageDto build(Trip trip) {
         if (trip == null) {
@@ -24,9 +24,12 @@ public class TripInPackageDto {
         return new TripInPackageDto(
                 trip.getId(),
                 trip.getState(),
-                trip.getRouteList(),
+                trip.getRouteList()
+                        .stream()
+                        .map(CityInTripDto::build)
+                        .collect(Collectors.toList()),
                 trip.getCar(),
-                trip.getCurrentLocation()
+                CityInTripDto.build(trip.getCurrentLocation())
         );
     }
 }
